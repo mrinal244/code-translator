@@ -46,7 +46,7 @@ Ensure you have the following installed:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/Utkarsh1968/Code-Translator.git
+git clone https://github.com/mrinal224/Code-Translator.git
 cd Code-Translator
 ```
 
