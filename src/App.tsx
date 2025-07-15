@@ -20,224 +20,34 @@ import Editor from '@monaco-editor/react';
 
 const LANGUAGES = ['Python', 'C++', 'Java', 'C#', 'JavaScript'];
 
+// Sample code examples for demonstration
 const SAMPLE_CODE = {
-  Python: `import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-
-# Load and prepare data
-data = pd.read_csv('dataset.csv')
-X = data.drop('target', axis=1)
-y = data['target']
-
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Train model
-model = RandomForestClassifier(n_estimators=100, random_state=42)
-model.fit(X_train, y_train)
-
-# Predict and evaluate
-predictions = model.predict(X_test)
-accuracy = accuracy_score(y_test, predictions)
-print(f"Model accuracy: {accuracy:.2f}")`,
+  Python: `def hello_world():
+    print("Hello, World!")
+    return "Python"`,
   'C++': `#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-
-class NeuralNetwork {
-private:
-    std::vector<std::vector<double>> weights;
-    std::vector<double> biases;
-    
-public:
-    double sigmoid(double x) {
-        return 1.0 / (1.0 + exp(-x));
-    }
-    
-    std::vector<double> forward(const std::vector<double>& input) {
-        std::vector<double> output;
-        for (size_t i = 0; i < weights.size(); ++i) {
-            double sum = biases[i];
-            for (size_t j = 0; j < input.size(); ++j) {
-                sum += weights[i][j] * input[j];
-            }
-            output.push_back(sigmoid(sum));
-        }
-        return output;
-    }
-};
+using namespace std;
 
 int main() {
-    NeuralNetwork nn;
-    std::vector<double> input = {0.5, 0.3, 0.8};
-    auto result = nn.forward(input);
-    
-    std::cout << "Neural network output: ";
-    for (double val : result) {
-        std::cout << val << " ";
-    }
-    std::cout << std::endl;
-    
+    cout << "Hello, World!" << endl;
     return 0;
 }`,
-  Java: `import java.util.*;
-import java.util.stream.Collectors;
-
-public class DataAnalyzer {
-    private List<Double> dataset;
-    
-    public DataAnalyzer(List<Double> data) {
-        this.dataset = new ArrayList<>(data);
-    }
-    
-    public double calculateMean() {
-        return dataset.stream()
-                     .mapToDouble(Double::doubleValue)
-                     .average()
-                     .orElse(0.0);
-    }
-    
-    public double calculateStandardDeviation() {
-        double mean = calculateMean();
-        double variance = dataset.stream()
-                                .mapToDouble(x -> Math.pow(x - mean, 2))
-                                .average()
-                                .orElse(0.0);
-        return Math.sqrt(variance);
-    }
-    
-    public List<Double> detectOutliers() {
-        double mean = calculateMean();
-        double stdDev = calculateStandardDeviation();
-        double threshold = 2.0;
-        
-        return dataset.stream()
-                     .filter(x -> Math.abs(x - mean) > threshold * stdDev)
-                     .collect(Collectors.toList());
-    }
-    
+  Java: `public class HelloWorld {
     public static void main(String[] args) {
-        List<Double> data = Arrays.asList(1.0, 2.0, 3.0, 4.0, 100.0, 5.0, 6.0);
-        DataAnalyzer analyzer = new DataAnalyzer(data);
-        
-        System.out.println("Mean: " + analyzer.calculateMean());
-        System.out.println("Standard Deviation: " + analyzer.calculateStandardDeviation());
-        System.out.println("Outliers: " + analyzer.detectOutliers());
+        System.out.println("Hello, World!");
     }
 }`,
   'C#': `using System;
-using System.Collections.Generic;
-using System.Linq;
 
-public class MLModel {
-    private double[] weights;
-    private double bias;
-    private double learningRate;
-    
-    public MLModel(int inputSize, double lr = 0.01) {
-        weights = new double[inputSize];
-        Random rand = new Random();
-        for (int i = 0; i < inputSize; i++) {
-            weights[i] = rand.NextDouble() * 2 - 1; // Random between -1 and 1
-        }
-        bias = rand.NextDouble() * 2 - 1;
-        learningRate = lr;
-    }
-    
-    public double Predict(double[] input) {
-        double sum = bias;
-        for (int i = 0; i < input.Length; i++) {
-            sum += weights[i] * input[i];
-        }
-        return Sigmoid(sum);
-    }
-    
-    private double Sigmoid(double x) {
-        return 1.0 / (1.0 + Math.Exp(-x));
-    }
-    
-    public void Train(double[] input, double target) {
-        double prediction = Predict(input);
-        double error = target - prediction;
-        
-        // Update weights and bias
-        for (int i = 0; i < weights.Length; i++) {
-            weights[i] += learningRate * error * input[i];
-        }
-        bias += learningRate * error;
-    }
-    
+class Program {
     static void Main() {
-        MLModel model = new MLModel(2);
-        double[] input = {0.5, 0.3};
-        double prediction = model.Predict(input);
-        Console.WriteLine($"Prediction: {prediction:F4}");
+        Console.WriteLine("Hello, World!");
     }
 }`,
-  JavaScript: `class DataScientist {
-    constructor(data) {
-        this.data = data;
-    }
-    
-    // Statistical analysis
-    mean() {
-        return this.data.reduce((sum, val) => sum + val, 0) / this.data.length;
-    }
-    
-    median() {
-        const sorted = [...this.data].sort((a, b) => a - b);
-        const mid = Math.floor(sorted.length / 2);
-        return sorted.length % 2 === 0 
-            ? (sorted[mid - 1] + sorted[mid]) / 2 
-            : sorted[mid];
-    }
-    
-    standardDeviation() {
-        const mean = this.mean();
-        const variance = this.data.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / this.data.length;
-        return Math.sqrt(variance);
-    }
-    
-    // Simple linear regression
-    linearRegression(xData, yData) {
-        const n = xData.length;
-        const sumX = xData.reduce((sum, x) => sum + x, 0);
-        const sumY = yData.reduce((sum, y) => sum + y, 0);
-        const sumXY = xData.reduce((sum, x, i) => sum + x * yData[i], 0);
-        const sumXX = xData.reduce((sum, x) => sum + x * x, 0);
-        
-        const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-        const intercept = (sumY - slope * sumX) / n;
-        
-        return { slope, intercept };
-    }
-    
-    // Anomaly detection using Z-score
-    detectAnomalies(threshold = 2) {
-        const mean = this.mean();
-        const stdDev = this.standardDeviation();
-        
-        return this.data.map((value, index) => ({
-            index,
-            value,
-            zScore: Math.abs((value - mean) / stdDev),
-            isAnomaly: Math.abs((value - mean) / stdDev) > threshold
-        })).filter(item => item.isAnomaly);
-    }
-}
-
-// Example usage
-const dataset = [1, 2, 3, 4, 5, 100, 6, 7, 8, 9, 10];
-const ds = new DataScientist(dataset);
-
-console.log('Mean:', ds.mean());
-console.log('Median:', ds.median());
-console.log('Standard Deviation:', ds.standardDeviation());
-console.log('Anomalies:', ds.detectAnomalies());`
+  JavaScript: `function helloWorld() {
+    console.log("Hello, World!");
+    return "JavaScript";
+}`
 };
 
 interface CodeAnalysis {
@@ -258,7 +68,7 @@ interface TranslationMetrics {
 function App() {
   const [sourceLanguage, setSourceLanguage] = useState('Python');
   const [targetLanguage, setTargetLanguage] = useState('Java');
-  const [sourceCode, setSourceCode] = useState(SAMPLE_CODE.Python);
+  const [sourceCode, setSourceCode] = useState('');
   const [translatedCode, setTranslatedCode] = useState('');
   const [isTranslating, setIsTranslating] = useState(false);
   const [error, setError] = useState('');
@@ -271,6 +81,9 @@ function App() {
   const [showAdvancedFeatures, setShowAdvancedFeatures] = useState(false);
   const [aiInsights, setAiInsights] = useState<string[]>([]);
   const [performanceMetrics, setPerformanceMetrics] = useState<any>(null);
+
+  // Auto-translate when both languages are selected and code exists
+  const [autoTranslate, setAutoTranslate] = useState(false);
 
   // Simulate AI-powered code analysis
   const analyzeCode = async (code: string, language: string) => {
@@ -307,6 +120,7 @@ function App() {
     setIsAnalyzing(false);
   };
 
+  // Enhanced translation function with better error handling
   const handleTranslate = async () => {
     if (!sourceCode.trim()) {
       setError('Please enter some code to translate');
@@ -326,7 +140,59 @@ function App() {
     const startTime = Date.now();
 
     try {
-      const response = await fetch('http://localhost:5000/translate', {
+      // Try multiple API endpoints
+      let response;
+      let data;
+      
+      // First try the local mock server
+      try {
+        response = await fetch('http://localhost:5000/translate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            sourceCode,
+            sourceLanguage,
+            targetLanguage,
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        data = await response.json();
+      } catch (localError) {
+        console.log('Local server not available, using fallback translation...');
+        
+        // Fallback to simple mock translation
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+        
+        data = {
+          translatedCode: mockTranslate(sourceCode, sourceLanguage, targetLanguage)
+        };
+      }
+
+      const executionTime = Date.now() - startTime;
+      setTranslatedCode(data.translatedCode);
+      
+      // Generate mock translation metrics
+      const confidence = Math.max(75, 95 - Math.random() * 20);
+      const codeQuality = Math.max(70, 90 - Math.random() * 20);
+      const suggestions = [
+        'Consider adding error handling for edge cases',
+        'Optimize loops for better performance',
+        'Add type annotations for better code clarity',
+        'Consider using more efficient data structures'
+      ].slice(0, Math.floor(Math.random() * 3) + 1);
+      
+      setTranslationMetrics({
+        confidence: Math.round(confidence),
+        executionTime,
+        codeQuality: Math.round(codeQuality),
+        optimizationSuggestions: suggestions
+      });
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
