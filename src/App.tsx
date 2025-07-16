@@ -193,54 +193,6 @@ function App() {
         codeQuality: Math.round(codeQuality),
         optimizationSuggestions: suggestions
       });
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          sourceCode,
-          sourceLanguage,
-          targetLanguage,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Translation failed');
-      }
-
-      const executionTime = Date.now() - startTime;
-      setTranslatedCode(data.translatedCode);
-      
-      // Generate mock translation metrics
-      const confidence = Math.max(75, 95 - Math.random() * 20);
-      const codeQuality = Math.max(70, 90 - Math.random() * 20);
-      const suggestions = [
-        'Consider adding error handling for edge cases',
-        'Optimize loops for better performance',
-        'Add type annotations for better code clarity',
-        'Consider using more efficient data structures'
-      ].slice(0, Math.floor(Math.random() * 3) + 1);
-      
-      setTranslationMetrics({
-        confidence: Math.round(confidence),
-        executionTime,
-        codeQuality: Math.round(codeQuality),
-        optimizationSuggestions: suggestions
-      });
-
-      // Auto-analyze translated code
-      if (showAdvancedFeatures) {
-        analyzeCode(data.translatedCode, targetLanguage);
-      }
-
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during translation');
-    } finally {
-      setIsTranslating(false);
-    }
-  };
 
   const handleSourceLanguageChange = (lang: string) => {
     setSourceLanguage(lang);
