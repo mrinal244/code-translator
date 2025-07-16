@@ -65,6 +65,28 @@ interface TranslationMetrics {
   optimizationSuggestions: string[];
 }
 
+// Mock translation function
+const mockTranslate = (code: string, from: string, to: string) => {
+  // Simple mock translation logic
+  const translations: { [key: string]: { [key: string]: string } } = {
+    Python: {
+      Java: code.replace(/def\s+(\w+)\s*\(/g, 'public static void $1(')
+                .replace(/print\(/g, 'System.out.println(')
+                .replace(/return\s+"([^"]+)"/g, '// return "$1"'),
+      'C++': code.replace(/def\s+(\w+)\s*\(/g, 'void $1(')
+                 .replace(/print\(/g, 'cout << ')
+                 .replace(/return\s+"([^"]+)"/g, '// return "$1"'),
+      'C#': code.replace(/def\s+(\w+)\s*\(/g, 'public static void $1(')
+                .replace(/print\(/g, 'Console.WriteLine(')
+                .replace(/return\s+"([^"]+)"/g, '// return "$1"'),
+      JavaScript: code.replace(/def\s+(\w+)\s*\(/g, 'function $1(')
+                      .replace(/print\(/g, 'console.log(')
+    }
+  };
+  
+  return translations[from]?.[to] || `// Translated from ${from} to ${to}\n${code}`;
+};
+
 function App() {
   const [sourceLanguage, setSourceLanguage] = useState('Python');
   const [targetLanguage, setTargetLanguage] = useState('Java');
@@ -193,6 +215,14 @@ function App() {
         codeQuality: Math.round(codeQuality),
         optimizationSuggestions: suggestions
       });
+
+    } catch (error) {
+      console.error('Translation error:', error);
+      setError('Failed to translate code. Please try again.');
+    } finally {
+      setIsTranslating(false);
+    }
+  };
 
   const handleSourceLanguageChange = (lang: string) => {
     setSourceLanguage(lang);
