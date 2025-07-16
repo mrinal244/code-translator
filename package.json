@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start-api": "python3 api/app.py"
+    "start-api": "python3 api/app.py",
+    "start-mock": "node mock-server.js"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",

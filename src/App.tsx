@@ -194,7 +194,7 @@ function App() {
 
   const handleSourceLanguageChange = (lang: string) => {
     setSourceLanguage(lang);
-    setSourceCode(SAMPLE_CODE[lang as keyof typeof SAMPLE_CODE]);
+    // Keep the current code when changing language, don't auto-populate
     setTranslatedCode('');
     setError('');
     setCodeAnalysis(null);
