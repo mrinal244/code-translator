@@ -20,36 +20,6 @@ import Editor from '@monaco-editor/react';
 
 const LANGUAGES = ['Python', 'C++', 'Java', 'C#', 'JavaScript'];
 
-// Sample code examples for demonstration
-const SAMPLE_CODE = {
-  Python: `def hello_world():
-    print("Hello, World!")
-    return "Python"`,
-  'C++': `#include <iostream>
-using namespace std;
-
-int main() {
-    cout << "Hello, World!" << endl;
-    return 0;
-}`,
-  Java: `public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}`,
-  'C#': `using System;
-
-class Program {
-    static void Main() {
-        Console.WriteLine("Hello, World!");
-    }
-}`,
-  JavaScript: `function helloWorld() {
-    console.log("Hello, World!");
-    return "JavaScript";
-}`
-};
-
 interface CodeAnalysis {
   complexity: number;
   maintainability: number;
@@ -162,13 +132,11 @@ function App() {
     const startTime = Date.now();
 
     try {
-      // Try multiple API endpoints
-      let response;
+      // Try the mock server first, then fallback to client-side translation
       let data;
       
-      // First try the local mock server
       try {
-        response = await fetch('http://localhost:5000/translate', {
+        const response = await fetch('http://localhost:3001/translate', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -181,15 +149,15 @@ function App() {
         });
         
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`Server error: ${response.status}`);
         }
         
         data = await response.json();
-      } catch (localError) {
-        console.log('Local server not available, using fallback translation...');
+      } catch (serverError) {
+        console.log('Mock server not available, using client-side translation...');
         
-        // Fallback to simple mock translation
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+        // Fallback to client-side mock translation
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
         data = {
           translatedCode: mockTranslate(sourceCode, sourceLanguage, targetLanguage)
